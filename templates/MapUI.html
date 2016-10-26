@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cloud Computing Assignment 1 -Twitt Map</title>
+    <meta charset="utf-8">
+    <style>
+        h1 {text-align:center;}
+        p {text-align:center;}
+    #header {
+        background-color:cornflowerblue;
+        color:white;
+        text-align:center;
+        padding:5px;
+    }
+    #keywordsearch {
+        line-height:30px;
+        padding:5px;
+        text-align:center;
+    }
+    #map {
+        width:100%;
+	    height:800px;
+        padding:10px;
+        text-align:center;
+    }
+    </style>
+  </head>
+  <body>
+  <div id="header">
+      <h1>Twitter Map</h1>
+  </div>
+  <div id="description">
+     <p>Welcome to Tweet Map</p>
+     <p>Please choose a keyword from the dropdown provided to find locations of tweets generated related to the keyword</p>
+  </div>
+<div id = "keywordsearch">
+<form method="POST">
+<select name ="keyword_drop_down" onchange='this.form.submit()'>
+    <option selected="selected"  disabled="disabled"></option>
+    <option value="love">Love</option>
+    <option value="china">China</option>
+    <option value="hillary">Hillary</option>
+    <option value="trump">Trump</option>
+    <option value="halloween">Halloween</option>
+    <option value="netflix">Netflix</option>
+    <option value="gotham">Gotham</option>
+    <option value="world">World</option>
+</select>
+</form>
+<noscript><input type="submit" value = "Submit"></noscript>
+</div>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<div id="map"></div>
+
+<script type="text/javascript">
+
+    var locations = {{coord_list|tojson}};
+    alert(locations);
+    var red_pushpin = 'http://maps.google.com/mapfiles/ms/icons/red-pushpin.png';
+    var longlatiCenterofWorld = {lat: 0, lng: 0};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 3,
+      center: longlatiCenterofWorld,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+
+    var marker, i;
+    for (i = 0; i < locations.length; i++) {
+        var curr_loc = locations[i];
+        var res = curr_loc.split(",");
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(res[0], res[1]),
+            //position: new google.maps.LatLng(40.6944,-73.9866),
+            icon: red_pushpin,
+            map: map
+        });
+      }
+
+  </script>
+  </body>
+</html>
