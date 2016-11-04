@@ -79,45 +79,42 @@
     }
     
     map.addListener('click', function(e) {
-                if (!marker) {
-                        marker = new google.maps.Marker({
-                        position: {lat: e.latLng.lat(), lng: e.latLng.lng()},
-                        map: map
-                    });
-                }else {
-                    marker.setMap(null);
-                        marker = new google.maps.Marker({
-                        position: {lat: e.latLng.lat(), lng: e.latLng.lng()},
-                        map: map
-                    });
-                }
-                $.getJSON('/location', {
-                    lat: e.latLng.lat(),
-                    lng: e.latLng.lng()
-                }, function(data){
-                    //var a = JSON.parse(data);
-                        locations = data.res;
-                        // alert(typeof(data.res[0][0]) === 'number');
-                        map = new google.maps.Map(document.getElementById('map'), {
-                          zoom: 3,
-                          center: longlatiCenterofWorld,
-                          mapTypeId: google.maps.MapTypeId.ROADMAP
-                        });
-                        var blueicon = 'http://maps.google.com/mapfiles/ms/icons/blue-pushpin.png';
-                        for (i = 0; i < locations.length; i++) {
-                            marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-                                icon: blueicon,
-                                map: map
-                        });
-                        }
-                    
-                    $("#results").text('Twitts around where you taped');
-                        // // window.alert(data.result);
-                    });
-                    return false;
-
+        if (!marker) {
+                marker = new google.maps.Marker({
+                position: {lat: e.latLng.lat(), lng: e.latLng.lng()},
+                map: map
+            });
+        }else {
+            marker.setMap(null);
+                marker = new google.maps.Marker({
+                position: {lat: e.latLng.lat(), lng: e.latLng.lng()},
+                map: map
+            });
+        }
+        $.getJSON('/location', {
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng()
+        }, function(data){
+                locations = data.res;
+                map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 3,
+                  center: longlatiCenterofWorld,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
+                var blueicon = 'http://maps.google.com/mapfiles/ms/icons/blue-pushpin.png';
+                for (i = 0; i < locations.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                        icon: blueicon,
+                        map: map
+                });
+                }
+            
+            $("#results").text('Twitts around where you taped');
+            });
+            return false;
+
+        });
 
   </script>
   </body>

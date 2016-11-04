@@ -29,12 +29,10 @@ def getMessageByLocation(location):
     latitute,longitute=location
     print("LAT!!!!!",latitute,"Long",longitute)
     if dd_select=='':
-        print ("noo########################################")
         q=MatchAllQuery()
     else:
         q=TermQuery("message",dd_select)
     f=GeoDistanceFilter("location",{"lat":latitute,"lon":longitute},'100mi')
-    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",dd_select)
     s=FilteredQuery(q,f)
 
     results=conn.search(query=s)
@@ -43,9 +41,6 @@ def getMessageByLocation(location):
     try:
         for result in results:
             ret['res'].append([result['location']['lat'], result['location']['lon']])
-        
-        #print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",ret)
-        
         return jsonify(**ret)
     except:
         print ("No twitter Nearby")
@@ -57,18 +52,13 @@ def backend_query():
     global selected
     selected = dd_select
     conn = ES(['https://search-twittmap-77ta2y45lfunfg4hhdxaezl524.us-west-2.es.amazonaws.com'])
-    #latitute,longitute=location
     cLat = request.args.get('lat',10,type=float)
     cLon = request.args.get('lng',10,type=float)
-    #f=GeoDistanceFilter("location",[cLat,cLon],"100km")
     q=TermQuery("message",dd_select)
-    #s=FilteredQuery(q,f)
-    #results=conn.search(query=s)
     results=conn.search(query=q)
     coord_list = []
     for i in results:
         if (i["location"]["lat"]) is not None:
-            #print (i)
             coordinates = str(i["location"]["lat"])+","+str(i["location"]["lon"])
             coord_list.append(coordinates)
 
