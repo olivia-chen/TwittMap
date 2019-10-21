@@ -28,4 +28,4 @@ tweepy==3.5.0
 urllib3==1.18
 wcwidth==0.1.7
 websocket-client==0.37.0
-Werkzeug==0.11.11
+Werkzeug==0.15.3
